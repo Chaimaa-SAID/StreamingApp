@@ -1,0 +1,40 @@
+<div class="categories-container">
+  <div class="header">
+    <h1>Categories</h1>
+    <button [routerLink]="['/categories/new']" class="btn btn-primary">Add New Category</button>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <p>Loading categories...</p>
+  </div>
+
+  <div class="error" *ngIf="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div class="categories-table" *ngIf="!loading && !error">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let category of categories">
+        <td>{{ category.id }}</td>
+        <td>{{ category.nom }}</td>
+        <td class="actions">
+          <button [routerLink]="['/categories/edit', category.id]" class="btn btn-edit">Edit</button>
+          <button class="btn btn-delete">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="no-categories" *ngIf="!loading && !error && categories.length === 0">
+    <p>No categories available. Add a new category to get started.</p>
+  </div>
+</div>

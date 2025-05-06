@@ -1,0 +1,60 @@
+<div class="home-container">
+
+  <!-- Barre de recherche -->
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Rechercher par titre ou genre..." (input)="searchMovies()">
+  </div>
+
+  <!-- Bannière de films populaires -->
+  <div class="banner">
+    <h2>Films Populaires</h2>
+    <div class="banner-content">
+      <!-- Ajouter un carrousel ou une vidéo -->
+      <p>Bande-annonce ou lecteur pour un film populaire</p>
+    </div>
+  </div>
+
+  <!-- Sections de films -->
+  <div class="movie-sections">
+    <div class="section">
+      <h3>Derniers ajouts</h3>
+      <div class="movie-list">
+        <div *ngFor="let movie of movies" class="movie-card">
+          <h4>{{ movie.title }}</h4>
+          <p>Genre: {{ movie.genre }}</p>
+          <button (click)="viewDetails(movie)">Voir les détails</button>
+          <button (click)="playMovie(movie)">Lire</button>
+          <button (click)="toggleFavorite(movie)">
+            {{ movie.isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
+          </button>
+          <div *ngIf="isAdmin">
+            <button (click)="editMovie(movie)">Modifier</button>
+            <button (click)="deleteMovie(movie)">Supprimer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Autres sections (populaires, par catégorie) -->
+  </div>
+
+  <!-- Dashboard admin -->
+  <div *ngIf="isAdmin" class="admin-dashboard">
+    <h2>Dashboard Administrateur</h2>
+    <div class="stats">
+      <p>Nombre total d'utilisateurs: <span>100</span></p>
+      <p>Nombre total de films/séries: <span>50</span></p>
+      <p>Statistiques des vues: <span>1000 vues</span></p>
+    </div>
+    <div class="admin-actions">
+      <button (click)="addMovie()">Ajouter un film/série</button>
+      <button (click)="manageUsers()">Gérer les utilisateurs</button>
+    </div>
+  </div>
+
+  <!-- Liens rapides -->
+  <div class="quick-links">
+    <a routerLink="/favorites">Mes favoris</a>
+    <a routerLink="/history">Mon historique</a>
+    <a routerLink="/account">Mon compte</a>
+  </div>
+</div>

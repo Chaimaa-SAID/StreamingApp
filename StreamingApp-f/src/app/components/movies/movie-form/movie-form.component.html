@@ -1,0 +1,76 @@
+<div class="movie-form-container">
+    <h1>{{ isEditMode ? 'Edit' : 'Add New' }} Movie</h1>
+
+    <div class="loading" *ngIf="loading">
+        <p>Loading...</p>
+    </div>
+
+    <div class="error" *ngIf="error">
+        <p>{{ error }}</p>
+    </div>
+
+    <form [formGroup]="movieForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+        <div class="form-group">
+            <label for="titre">Title</label>
+            <input type="text" id="titre" formControlName="titre" class="form-control">
+            <div class="error-message" *ngIf="movieForm.get('titre')?.invalid && movieForm.get('titre')?.touched">
+                Title is required
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" formControlName="description" class="form-control" rows="4"></textarea>
+            <div class="error-message" *ngIf="movieForm.get('description')?.invalid && movieForm.get('description')?.touched">
+                Description is required
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="dateSortie">Release Date</label>
+                <input type="date" id="dateSortie" formControlName="dateSortie" class="form-control">
+                <div class="error-message" *ngIf="movieForm.get('dateSortie')?.invalid && movieForm.get('dateSortie')?.touched">
+                    Release date is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="langue">Language</label>
+                <input type="text" id="langue" formControlName="langue" class="form-control">
+                <div class="error-message" *ngIf="movieForm.get('langue')?.invalid && movieForm.get('langue')?.touched">
+                    Language is required
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="realisateur">Director</label>
+                <input type="text" id="realisateur" formControlName="realisateur" class="form-control">
+                <div class="error-message" *ngIf="movieForm.get('realisateur')?.invalid && movieForm.get('realisateur')?.touched">
+                    Director is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="duree">Duration (minutes)</label>
+                <input type="number" id="duree" formControlName="duree" class="form-control" min="1">
+                <div class="error-message" *ngIf="movieForm.get('duree')?.invalid && movieForm.get('duree')?.touched">
+                    Duration must be greater than 0
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group checkbox">
+            <label>
+                <input type="checkbox" formControlName="estDisponible"> Available for streaming
+            </label>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-secondary" [routerLink]="['/movies']">Cancel</button>
+            <button type="submit" class="btn btn-primary" [disabled]="movieForm.invalid">{{ isEditMode ? 'Update' : 'Save' }}</button>
+        </div>
+    </form>
+</div>

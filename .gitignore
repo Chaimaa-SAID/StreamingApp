@@ -1,0 +1,12 @@
+# Node.js / Angular
+/StreamingApp-f/node_modules
+/StreamingApp-f/dist
+
+# IntelliJ & Java
+/StreamingApp-b/target
+*.iml
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

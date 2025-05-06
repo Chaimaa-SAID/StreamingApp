@@ -1,0 +1,30 @@
+.sidebar {
+  width: 250px;
+  background-color: #343a40;
+  color: white;
+  padding: 1.5rem 0;
+}
+
+.sidebar-menu {
+  list-style: none;
+}
+
+.sidebar-menu-item {
+  padding: 0.75rem 1.5rem;
+}
+
+.sidebar-menu-item a {
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sidebar-menu-item a:hover,
+.sidebar-menu-item a.active {
+  color: white;
+}
+
+.sidebar-menu-item i {
+  width: 20px;
+}

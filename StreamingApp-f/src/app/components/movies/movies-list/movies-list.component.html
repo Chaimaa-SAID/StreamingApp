@@ -1,0 +1,39 @@
+<div class="movies-container">
+    <div class="header">
+        <h1>Movies</h1>
+        <button [routerLink]="['/movies/new']" class="btn btn-primary">Add New Movie</button>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+        <p>Loading movies...</p>
+    </div>
+
+    <div class="error" *ngIf="error">
+        <p>{{ error }}</p>
+    </div>
+
+    <div class="movies-grid" *ngIf="!loading && !error">
+        <div class="movie-card" *ngFor="let movie of movies">
+            <div class="movie-poster">
+                <img src="assets/images/placeholder.jpg" alt="{{ movie.titre }}">
+            </div>
+            <div class="movie-info">
+                <h3>{{ movie.titre }}</h3>
+                <p class="movie-description">{{ movie.description }}</p>
+                <p class="movie-details">
+                    <span>Director: {{ movie.realisateur }}</span>
+                    <span>Duration: {{ movie.duree }} min</span>
+                    <span>Language: {{ movie.langue }}</span>
+                </p>
+                <div class="movie-actions">
+                    <button [routerLink]="['/movies/edit', movie.id]" class="btn btn-edit">Edit</button>
+                    <button class="btn btn-view">Watch</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="no-movies" *ngIf="!loading && !error && movies.length === 0">
+        <p>No movies available. Add a new movie to get started.</p>
+    </div>
+</div>

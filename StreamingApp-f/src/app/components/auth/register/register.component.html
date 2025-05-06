@@ -1,0 +1,49 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="max-w-lg mx-auto mt-10 bg-white shadow-md rounded-lg p-6 space-y-4">
+
+  <h2 class="text-2xl font-semibold text-center text-gray-800">Inscription</h2>
+
+  <div>
+    <label for="nom" class="block text-gray-700 font-medium mb-1">Nom</label>
+    <input id="nom" formControlName="nom" type="text" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    <div *ngIf="registerForm.get('nom')?.invalid && registerForm.get('nom')?.touched" class="text-red-600 text-sm mt-1">Le nom est requis.</div>
+  </div>
+
+  <div>
+    <label for="email" class="block text-gray-700 font-medium mb-1">Email</label>
+    <input id="email" formControlName="email" type="email" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-red-600 text-sm mt-1">L'email est invalide.</div>
+  </div>
+
+  <div>
+    <label for="password" class="block text-gray-700 font-medium mb-1">Mot de passe</label>
+    <input id="password" formControlName="password" type="password" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-red-600 text-sm mt-1">Minimum 6 caractères.</div>
+  </div>
+
+  <div>
+    <label for="confirmPassword" class="block text-gray-700 font-medium mb-1">Confirmer le mot de passe</label>
+    <input id="confirmPassword" formControlName="confirmPassword" type="password" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched" class="text-red-600 text-sm mt-1">Confirmation requise.</div>
+  </div>
+
+  <div>
+    <label for="role" class="block text-gray-700 font-medium mb-1">Rôle</label>
+    <select id="role" formControlName="role" class="w-full border border-gray-300 rounded-md p-2">
+      <option value="USER">Utilisateur</option>
+      <option value="ADMIN">Administrateur</option>
+    </select>
+    <div *ngIf="registerForm.get('role')?.invalid && registerForm.get('role')?.touched" class="text-red-600 text-sm mt-1">Rôle requis.</div>
+  </div>
+
+  <div *ngIf="error" class="text-red-600 text-center">{{ error }}</div>
+
+  <button type="submit" [disabled]="registerForm.invalid || loading"
+    class="w-full bg-green-600 text-white font-semibold py-2 rounded-md hover:bg-green-700 transition disabled:opacity-50">
+    {{ loading ? 'Inscription en cours...' : 'S\'inscrire' }}
+  </button>
+
+  <p class="text-center text-sm text-gray-600 mt-2">
+    Vous avez déjà un compte ?
+    <a routerLink="/login" class="text-blue-600 hover:underline">Connectez-vous</a>
+  </p>
+</form>
