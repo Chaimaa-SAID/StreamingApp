@@ -39,10 +39,12 @@ export class LoginComponent {
           const payload = JSON.parse(atob(token.split('.')[1]));
           const role = payload.role || payload.authorities?.[0]?.authority;
   
-          if (role === 'ROLE_ADMIN') {
+          if (role === 'ADMIN') {
             this.router.navigate(['/admin']);
-          } else {
+          } else if(role === 'USER'){
             this.router.navigate(['/home']);
+          }else {
+            this.router.navigate(['/login']);
           }
         },
         error: (err: any) => {

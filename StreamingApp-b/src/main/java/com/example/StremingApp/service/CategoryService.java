@@ -2,20 +2,31 @@ package com.example.StremingApp.service;
 
 import com.example.StremingApp.model.Category;
 import com.example.StremingApp.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    public List<Category> getAllCategories() {
+    public List<Category> getAll() {
         return categoryRepository.findAll();
     }
 
-    public Category saveCategory(Category category) {
+    public Category create(Category category) {
         return categoryRepository.save(category);
+    }
+
+    public Category update(Long id, Category updated) {
+        Category existing = categoryRepository.findById(id).orElseThrow();
+        existing.setNom(updated.getNom()); // adapte selon les champs
+        return categoryRepository.save(existing);
+    }
+
+    public void delete(Long id) {
+        categoryRepository.deleteById(id);
     }
 }

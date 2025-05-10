@@ -33,35 +33,48 @@ export class AuthService {
       catchError(this.handleError)
     );
   }
-  isLoggedIn(): boolean {
-    const token = localStorage.getItem('token');
-    return !!token;
-  }
-  getRole(): string | null {
-    const user = localStorage.getItem('user');
-    if (user) {
-      try {
-        const parsedUser = JSON.parse(user);
-        return parsedUser.role || null;
-      } catch (e) {
-        console.error('Erreur lors du parsing de l’utilisateur', e);
-        return null;
-      }
-    }
-    return null;
-  }
-  
 
-  logout(): void {
-    localStorage.removeItem(this.tokenKey);
+  isLoggedIn(): boolean {
+    return !!this.getToken();
   }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
-  isAuthenticated(): boolean {
-    return !!this.getToken();
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+  }
+
+  decodeToken(token: string): any {
+    try {
+      const payload = token.split('.')[1];
+      return JSON.parse(atob(payload));
+    } catch (e) {
+      console.error('Erreur de décodage du token', e);
+      return null;
+    }
+  }
+
+  getUserInfo(): any | null {
+    const token = this.getToken();
+    if (!token) return null;
+    return this.decodeToken(token);
+  }
+
+  getRole(): string | null {
+    const userInfo = this.getUserInfo();
+    return userInfo?.role || null;
+  }
+
+  getUsername(): string | null {
+    const userInfo = this.getUserInfo();
+    return userInfo?.username || null;
+  }
+
+  getEmail(): string | null {
+    const userInfo = this.getUserInfo();
+    return userInfo?.email || null;
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {

@@ -37,7 +37,8 @@ public class AuthController {
         );
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        String token = jwtService.generateToken(userDetails.getUsername());
+        User user = userService.findByEmail(userDetails.getUsername());
+        String token = jwtService.generateToken(user);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
@@ -50,7 +51,7 @@ public class AuthController {
         user.setPassword(registerRequest.getPassword());
         user.setRole(registerRequest.getRole());
         user = userService.saveUser(user);
-        String token = jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 }

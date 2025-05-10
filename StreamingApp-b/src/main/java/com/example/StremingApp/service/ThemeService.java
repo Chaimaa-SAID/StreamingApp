@@ -1,23 +1,32 @@
 package com.example.StremingApp.service;
 
-
 import com.example.StremingApp.model.Theme;
 import com.example.StremingApp.repository.ThemeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ThemeService {
-    @Autowired
-    private ThemeRepository themeRepository;
+    private final ThemeRepository themeRepository;
 
-    public List<Theme> getAllThemes() {
+    public List<Theme> getAll() {
         return themeRepository.findAll();
     }
 
-    public Theme saveTheme(Theme theme) {
+    public Theme create(Theme theme) {
         return themeRepository.save(theme);
     }
-}
 
+    public Theme update(Long id, Theme updated) {
+        Theme existing = themeRepository.findById(id).orElseThrow();
+        existing.setNom(updated.getNom()); // adapte selon les champs
+        return themeRepository.save(existing);
+    }
+
+    public void delete(Long id) {
+        themeRepository.deleteById(id);
+    }
+}

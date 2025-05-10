@@ -1,1 +1,21 @@
-<p>admin-dashboard works!</p>
+<div class="dashboard-container">
+    <h1>Tableau de Bord Admin</h1>
+    <div class="stats-grid">
+      <div class="card">
+        <h2>Utilisateurs</h2>
+        <p>{{ stats.totalUsers }}</p>
+      </div>
+      <div class="card">
+        <h2>Films</h2>
+        <p>{{ stats.totalMovies }}</p>
+      </div>
+      <div class="card">
+        <h2>Catégories</h2>
+        <p>{{ stats.totalCategories }}</p>
+      </div>
+      <div class="card">
+        <h2>Abonnements</h2>
+        <p>{{ stats.totalSubscriptions }}</p>
+      </div>
+    </div>
+  </div>

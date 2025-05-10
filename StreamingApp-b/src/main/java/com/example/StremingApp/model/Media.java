@@ -16,6 +16,7 @@ public class Media {
     private Date dateSortie;
     private String langue;
     private boolean estDisponible;
+    private String urlStreaming;
 
     // Getters et setters
 
@@ -66,6 +67,9 @@ public class Media {
     public void setEstDisponible(boolean estDisponible) {
         this.estDisponible = estDisponible;
     }
+    public String getUrlStreaming() {
+        return urlStreaming;
+    }
 
     @Override
     public String toString() {
@@ -76,6 +80,13 @@ public class Media {
                 ", dateSortie=" + dateSortie +
                 ", langue='" + langue + '\'' +
                 ", estDisponible=" + estDisponible +
+                ", urlStreaming='" + urlStreaming + '\'' +
                 '}';
     }
+
+    public void setUrlStreaming(String urlStreaming) {
+        this.urlStreaming = urlStreaming;
+    }
+
+
 }

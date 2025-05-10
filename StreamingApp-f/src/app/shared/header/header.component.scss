@@ -1,0 +1,51 @@
+.header {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logo {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  .user-menu {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .avatar {
+    background-color: #6c63ff;
+    color: #fff;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+  
+    a {
+      padding: 5px 10px;
+      text-decoration: none;
+      color: #333;
+  
+      &:hover {
+        background-color: #f3f3f3;
+      }
+    }
+  }
+  
