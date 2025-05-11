@@ -2,9 +2,11 @@ package com.example.StremingApp.controller;
 
 import com.example.StremingApp.model.Media;
 import com.example.StremingApp.model.Movie;
+import com.example.StremingApp.model.VideoFile;
 import com.example.StremingApp.service.FileStorageService;
 import com.example.StremingApp.service.MediaService;
 import com.example.StremingApp.service.MovieService;
+import com.example.StremingApp.service.VideoFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,54 +23,47 @@ import java.util.List;
 @PreAuthorize("hasRole('ADMIN')")
 public class MovieController {
 
-    private final MediaService mediaService;
     private final MovieService movieService;
-    private final FileStorageService fileStorageService;
+    private final VideoFileService videoFileService;
 
-    // Get all movies
     @GetMapping
-    public List<Media> getAll() {
-        return mediaService.getAll();
+    public List<Movie> getAllMovies() {
+        return movieService.getAll();
     }
 
-    // Create a new movie
+    @GetMapping("/{id}")
+    public Movie getMovieById(@PathVariable Long id) {
+        return movieService.getById(id);
+    }
+
     @PostMapping
-    public Media create(@RequestBody Media movie) {
-        return mediaService.create(movie);
+    public Movie create(@RequestBody Movie movie) {
+        return movieService.create(movie);
     }
 
-    // Update movie
     @PutMapping("/{id}")
-    public Media update(@PathVariable Long id, @RequestBody Media movie) {
-        return mediaService.update(id, movie);
+    public Movie update(@PathVariable Long id, @RequestBody Movie updatedMovie) {
+        return movieService.update(id, updatedMovie);
     }
 
-    // Delete movie
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        mediaService.delete(id);
+        movieService.delete(id);
     }
-
-
     @PostMapping("/{id}/upload")
     public ResponseEntity<String> uploadVideo(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
-        Movie movie = movieService.findById(id);
+        Movie movie = movieService.getById(id);
         if (movie == null) {
-            return ResponseEntity.badRequest().body("Film introuvable avec l'id : " + id);
+            return ResponseEntity.badRequest().body("Movie not found with ID: " + id);
         }
 
-        String uploadDir = "C:/videos/movies/";
-        new File(uploadDir).mkdirs(); // Crée le dossier s'il n'existe pas
+        // Utilise le service VideoFile pour stocker la vidéo
+        VideoFile videoFile = videoFileService.saveVideoFileForMovie(id, file);
 
-        String fileName = file.getOriginalFilename();
-        File destination = new File(uploadDir + fileName);
-        file.transferTo(destination);
-
-        movie.setUrlStreaming("movies/" + fileName);
+        // Met à jour l'URL de streaming du film
+        movie.setUrlStreaming("movies/" + videoFile.getFileName());
         movieService.save(movie);
 
-        return ResponseEntity.ok("Vidéo uploadée et liée au film : " + fileName);
+        return ResponseEntity.ok("Video uploaded for movie: " + videoFile.getFileName());
     }
-
-
 }

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,11 +26,11 @@ public class EpisodeService {
     }
 
     public Episode getById(Long id) {
-        return episodeRepository.findById(id).orElseThrow();
+        return episodeRepository.findById(id).orElseThrow(() -> new RuntimeException("Episode not found"));
     }
 
     public Episode create(Episode episode, Long seasonId) {
-        Season season = seasonRepository.findById(seasonId).orElseThrow();
+        Season season = seasonRepository.findById(seasonId).orElseThrow(() -> new RuntimeException("Season not found"));
         episode.setSeason(season);
         return episodeRepository.save(episode);
     }
@@ -46,18 +47,19 @@ public class EpisodeService {
     public void delete(Long id) {
         episodeRepository.deleteById(id);
     }
-    public Episode uploadVideoToEpisode(Long episodeId, MultipartFile file) throws IOException {
-        Episode episode = getById(episodeId);
 
-        String uploadDir = "videos/";
-        Files.createDirectories(Paths.get(uploadDir));
+    public void uploadVideoFromLocalPath(Long episodeId, String fileName) {
+        Episode episode = episodeRepository.findById(episodeId)
+                .orElseThrow(() -> new RuntimeException("Episode non trouvé"));
 
-        String filename = file.getOriginalFilename();
-        Path filepath = Paths.get(uploadDir, filename);
-        Files.write(filepath, file.getBytes());
+        episode.setUrlStreaming(fileName);
+        episodeRepository.save(episode);
+    }
 
-        episode.setUrlStreaming("/videos/" + filename); // Chemin d'accès
+
+
+    public Episode save(Episode episode) {
         return episodeRepository.save(episode);
     }
-}
 
+}

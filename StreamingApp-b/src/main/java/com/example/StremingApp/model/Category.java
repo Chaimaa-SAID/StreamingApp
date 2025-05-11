@@ -3,6 +3,8 @@ package com.example.StremingApp.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "categories")
 public class Category {
@@ -11,6 +13,10 @@ public class Category {
     private Long id;
 
     private String nom;
+
+    @OneToMany(mappedBy = "category")
+    private List<Media> medias;
+
 
     public String getNom() {
         return nom;

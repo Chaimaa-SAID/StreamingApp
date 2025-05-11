@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "media")
-@Inheritance(strategy = InheritanceType.JOINED)  // Ajout de la stratégie d'héritage JOINED
+@Inheritance(strategy = InheritanceType.JOINED)  // Stratégie d'héritage JOINED
 public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,10 @@ public class Media {
     private boolean estDisponible;
     private String urlStreaming;
 
-    // Getters et setters
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
 
     public Long getId() {
         return id;
@@ -67,8 +70,13 @@ public class Media {
     public void setEstDisponible(boolean estDisponible) {
         this.estDisponible = estDisponible;
     }
+
     public String getUrlStreaming() {
         return urlStreaming;
+    }
+
+    public void setUrlStreaming(String urlStreaming) {
+        this.urlStreaming = urlStreaming;
     }
 
     @Override
@@ -83,10 +91,4 @@ public class Media {
                 ", urlStreaming='" + urlStreaming + '\'' +
                 '}';
     }
-
-    public void setUrlStreaming(String urlStreaming) {
-        this.urlStreaming = urlStreaming;
-    }
-
-
 }

@@ -1,6 +1,5 @@
 package com.example.StremingApp.model;
 
-
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -11,34 +10,48 @@ public class Season {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private int number;
     private Date releaseDate;
 
-    @ManyToOne
-    @JoinColumn(name = "series_id")
-    private Series series;
-
-    @OneToMany(mappedBy = "season", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "season", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Episode> episodes;
+
+
+    @ManyToOne
+    @JoinColumn(name = "serie_id")
+    private Serie serie;
 
     public Long getId() {
         return id;
-    }
-
-    public Series getSeries() {
-        return series;
-    }
-
-    public Date getReleaseDate() {
-        return releaseDate;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setSeries(Series series) {
-        this.series = series;
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public Date getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie series) {
+        this.serie = series;
     }
 
     @Override
@@ -47,19 +60,7 @@ public class Season {
                 "id=" + id +
                 ", number=" + number +
                 ", releaseDate=" + releaseDate +
-                ", series=" + series +
+                ", series=" + serie +
                 '}';
-    }
-
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public int getNumber() {
-        return number;
     }
 }

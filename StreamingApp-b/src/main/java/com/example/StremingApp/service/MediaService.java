@@ -1,11 +1,10 @@
 package com.example.StremingApp.service;
 
-
 import com.example.StremingApp.model.Media;
 import com.example.StremingApp.repository.MediaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -18,7 +17,7 @@ public class MediaService {
     }
 
     public Media getById(Long id) {
-        return mediaRepository.findById(id).orElseThrow();
+        return mediaRepository.findById(id).orElseThrow(() -> new RuntimeException("Media not found"));
     }
 
     public Media create(Media media) {
@@ -38,4 +37,3 @@ public class MediaService {
         mediaRepository.deleteById(id);
     }
 }
-

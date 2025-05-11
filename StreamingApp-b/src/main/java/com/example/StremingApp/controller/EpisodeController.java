@@ -1,13 +1,20 @@
 package com.example.StremingApp.controller;
 
 import com.example.StremingApp.model.Episode;
+import com.example.StremingApp.model.VideoFile;
 import com.example.StremingApp.service.EpisodeService;
+import com.example.StremingApp.service.VideoFileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -43,9 +50,20 @@ public class EpisodeController {
         episodeService.delete(id);
     }
 
-    // Upload vidéo pour un épisode
+
     @PostMapping("/{id}/upload-video")
-    public Episode uploadVideo(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
-        return episodeService.uploadVideoToEpisode(id, file);
+    public ResponseEntity<String> uploadVideo(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) {
+        try {
+            String fileName = file.getOriginalFilename();
+            Path targetLocation = Paths.get("C:/videos/episodes/" + fileName);
+            Files.copy(file.getInputStream(), targetLocation);
+            episodeService.uploadVideoFromLocalPath(id, fileName);
+            return ResponseEntity.ok("Video uploaded successfully.");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error uploading file: " + e.getMessage());
+        }
     }
 }

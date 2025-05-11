@@ -1,7 +1,7 @@
 package com.example.StremingApp.service;
 
 import com.example.StremingApp.model.Season;
-import com.example.StremingApp.model.Series;
+import com.example.StremingApp.model.Serie;
 import com.example.StremingApp.repository.SeasonRepository;
 import com.example.StremingApp.repository.SeriesRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +20,12 @@ public class SeasonService {
     }
 
     public Season getById(Long id) {
-        return seasonRepository.findById(id).orElseThrow();
+        return seasonRepository.findById(id).orElseThrow(() -> new RuntimeException("Season not found"));
     }
 
     public Season create(Season season, Long seriesId) {
-        Series series = seriesRepository.findById(seriesId).orElseThrow();
-        season.setSeries(series);
+        Serie serie = seriesRepository.findById(seriesId).orElseThrow(() -> new RuntimeException("Serie not found"));
+        season.setSerie(serie);
         return seasonRepository.save(season);
     }
 

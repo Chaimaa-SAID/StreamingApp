@@ -2,6 +2,8 @@ package com.example.StremingApp.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "episodes")
 public class Episode {
@@ -14,12 +16,60 @@ public class Episode {
     private int duree;
     private String urlStreaming;
 
+
     @ManyToOne
-    @JoinColumn(name = "season_id") // Foreign key to Season
+    @JoinColumn(name = "season_id")
     private Season season;
+
+    @OneToMany(mappedBy = "episode", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<VideoFile> videoFiles;
+
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public int getDuree() {
+        return duree;
+    }
+
+    public void setDuree(int duree) {
+        this.duree = duree;
+    }
+
+    public String getUrlStreaming() {
+        return urlStreaming;
+    }
+
+    public void setUrlStreaming(String urlStreaming) {
+        this.urlStreaming = urlStreaming;
+    }
+
+    public Season getSeason() {
+        return season;
+    }
+
+    public void setSeason(Season season) {
+        this.season = season;
     }
 
     @Override
@@ -33,49 +83,4 @@ public class Episode {
                 ", season=" + season +
                 '}';
     }
-
-    public void setSeason(Season season) {
-        this.season = season;
-    }
-
-    public void setUrlStreaming(String urlStreaming) {
-        this.urlStreaming = urlStreaming;
-    }
-
-    public void setDuree(int duree) {
-        this.duree = duree;
-    }
-
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Season getSeason() {
-        return season;
-    }
-
-    public String getUrlStreaming() {
-        return urlStreaming;
-    }
-
-    public int getDuree() {
-        return duree;
-    }
-
-    public String getTitre() {
-        return titre;
-    }
-
-    public int getNumero() {
-        return numero;
-    }
 }
-

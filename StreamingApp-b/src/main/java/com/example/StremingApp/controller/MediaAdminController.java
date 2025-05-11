@@ -13,10 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class MediaAdminController {
+
     private final MediaService mediaService;
 
     @GetMapping
-    public List<Media> getAll() {
+    public List<Media> getAllMedia() {
         return mediaService.getAll();
     }
 
